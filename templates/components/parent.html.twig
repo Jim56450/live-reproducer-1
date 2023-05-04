@@ -1,0 +1,18 @@
+<div{{ attributes }} style="background-color:#689473;">
+    <!-- component html -->
+
+    <h5>Parent</h5>
+    <div>
+        <label for="animal-editor-parent">Change Animal From Parent:
+            <input name="animal-editor-parent"
+                   data-model="animal" />
+        </label>
+    </div>
+    <hr>
+    Here is the Nested Child Component:
+    <hr>
+    {{ component('child', {
+        dataModel: 'animal:animal',
+        'animal': this.animal,
+    }) }}
+</div>
