@@ -10,7 +10,6 @@ Show some behavior troubles with **updateFromParent**, **data-live-id**, **debou
 Run
 
     composer install
-    npm install
     npm install --force
     npm run watch
     symfony server:start
