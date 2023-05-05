@@ -1,0 +1,66 @@
+Compared to <b>Test Case 1</b>, we have removed the <b>'animal': this.animal,</b> argument passed to child component
+<br>
+Have a look at the network connections in the Browser debug console.
+<ul>
+    <li>
+        When you update the parent, the child <b>is not updated</b>.
+        <ul>
+            <li>
+                A first request is made for the parent. This is the request based on data-model.
+            </li>
+            <li>
+                No request is made for the child.
+            </li>
+        </ul>
+        <br>
+        <b>Problem :</b>
+        <br>
+        <ul>
+            <li>
+                The child still has its <b>updateFromParent</b> property set to true.
+            </li>
+            <li>
+                The child component is called with a <b>dataModel: 'animal:animal'</b>
+            </li>
+            <li>
+                There is no property passed to child component like <b>'animal': this.animal</b>
+            </li>
+        </ul>
+        <br>
+        Is the behavior normal ? In my opinion, the simple fact that we have a <b>dataModel: 'animal:animal'</b>
+        and an <b>updateFromParent</b> property implies that the 'animal' property should be automatically created
+        without the need to add <b>'animal': this.animal,</b> in the child arguments.
+    </li>
+    <br>
+    <li>
+        When you update the child, the parent is updated. It seems to work correctly, but the first request is not processed at the right moment :
+        <ul>
+            <li>
+                A first request is made for the parent. This is the request based on data-model. (Request A)
+            </li>
+            <li>
+                A second request is made for the child. This is the request based on the change of the input in the child. (Request B)
+            </li>
+        </ul>
+        <br>
+        <b><i>Nearly Perfect</i> 😀 Problem :</b>
+        <ul>
+            <li>
+                The first request (A) should be executed <b><i>at least</i></b> after the change of the input is handled in the child (request B).
+                I added a 5000ms debounce on the child input to highlight the problem.
+                An appropriate way (in my opinion) would be, in the child, when input is changed :
+                <ul>
+                    <li>
+                        Wait the debounce period.
+                    </li>
+                    <li>
+                        Process request A.
+                    </li>
+                    <li>
+                        Process request B.
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>

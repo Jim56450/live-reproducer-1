@@ -1,0 +1,54 @@
+Have a look at the network connections in the Browser debug console.
+<ul>
+    <li>
+        When you update the parent, the child is updated.
+        <ul>
+            <li>
+                A first request is made for the parent. This is the request based on data-model.
+            </li>
+            <li>
+                A second one for the child. This is the request based on updateFromParent property.
+            </li>
+        </ul>
+        <br>
+        <b>Perfect !</b>
+    </li>
+    <br>
+    <li>
+        When you update the child, the parent is updated. It seems to work correctly, but not 3 (not 2) requests are processed :
+        <ul>
+            <li>
+                A first request is made for the parent. This is the request based on data-model. (Request A)
+            </li>
+            <li>
+                A second request is made for the child. This is the request based on updateFromParent property. (Request B)
+            </li>
+            <li>
+                A third request is made for the child. This is the request based on the change of the input in the child. (Request C)
+            </li>
+        </ul>
+        <br>
+        <b>Problem :</b>
+        <ul>
+            <li>
+                The first request (A) should be executed <b><i>at least</i></b> after the change of the input is handled in the child (request C).
+                I added a 5000ms debounce on the child input to highlight the problem.
+                An appropriate way (in my opinion) would be, in the child, when input is changed :
+                    <ul>
+                        <li>
+                            Wait the debounce period.
+                        </li>
+                        <li>
+                            Process request A.
+                        </li>
+                        <li>
+                            Process request B.
+                        </li>
+                        <li>
+                            Suppress request C.
+                        </li>
+                    </ul>
+            </li>
+        </ul>
+    </li>
+</ul>

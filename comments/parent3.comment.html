@@ -1,0 +1,29 @@
+This is the same as <b>Test cas 1</b> but we added a <b>'data-live-id':'whatever'</b> argument to child component call.
+<br>
+Have a look at the network connections in the Browser debug console.
+<ul>
+    <li>
+        If you update the parent, the child is rendered as an empty div.
+        <br>
+        A single request is made for the parent. I guess this is the request based on data-model.
+        <br>
+        <b>Bug</b>
+    </li>
+    <br>
+    <li>
+        If you update the child, the parent is updated, but the child is rendered as an empty div.
+        <br>
+        A single request is made for the parent, without waiting for the debounce delay. I guess this is the request based on data-model.
+        <br>
+        <b>Bug</b>
+    </li>
+    <br>
+    <li>
+        If you then update the parent or the child, the child is rendered and updated.
+        <br>
+        A single request is made for the parent. I guess this is the request based on data-model.
+        <br>
+        <b>Semi Bug</b>
+    </li>
+    <br>
+</ul>

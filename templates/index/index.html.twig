@@ -6,14 +6,154 @@
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+
+    /* Style the buttons that are used to open the tab content */
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+        background-color: #ddd;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+        background-color: #ccc;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    <hr>
-    Here is the Parent Component:
-    {{ component('parent') }}
-    <hr>
+    <script>
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        function setCookie(cname, cvalue, exdays) {
+            const d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            let expires = "expires="+d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        openTab = (element) => {
+            // Declare all variables
+            let i, tablinks;
+            let tabName = element.getAttribute('name');
+
+            // Get all elements with class="tabcontent" and hide them
+            Array.from(document.querySelectorAll('.tabcontent')).forEach(tab => {
+                tab.style.display = 'none';
+            });
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            Array.from(document.querySelectorAll('.tablinks')).forEach((tab, index) => {
+                tab.classList.contains('active')&&tab.classList.remove('active');
+            });
+
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabName).style.display = "block";
+
+            element.classList.add('active');
+            Array.from(document.querySelectorAll('.tablinks')).forEach((tab, index) => {
+                tab.classList.contains('active')&&setCookie("lastOpenedTab", index, 365);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            let lastOpenedTab = getCookie('lastOpenedTab')||0;
+
+            Array.from(document.querySelectorAll('.tablinks')).forEach((el, index) => {
+                el.addEventListener('click', function() {
+                    let tabName = this.getAttribute('tab-name');
+                    openTab(this);
+                }) ;
+                (index==lastOpenedTab)&&openTab(el);
+            });
+        });
+
+
+        //openTab(null, 'first');
+    </script>
+
+
+
+<div class="example-wrapper">
+    <h2>Switch between test cases to see the different behaviors</h2>
+
+    <!-- Tab links -->
+    <div class="tab">
+        <button type="button" class="tablinks" onClick="openTab" name="first">Test case 1</button>
+        <button type="button" class="tablinks" onClick="openTab" name="second">Test case 2</button>
+        <button type="button" class="tablinks" onClick="openTab" name="third">Test case 3</button>
+    </div>
+
+    <!-- Tab content -->
+    <div id="first" class="tabcontent">
+        <iframe id="first-tab-pane-content"
+                src="{{ path('app_tab_by_id', {id:1}) }}"
+                style="display: block;       /* iframes are inline by default */
+                                border: none;         /* Reset default border */
+                                height: 800px;        /* Viewport-relative units */
+                                width: 100%;"
+        >
+        </iframe>
+    </div>
+
+    <div id="second" class="tabcontent">
+        <iframe id="second-tab-pane-content"
+                src="{{ path('app_tab_by_id', {id:2}) }}"
+                style="display: block;       /* iframes are inline by default */
+                                border: none;         /* Reset default border */
+                                height: 800px;        /* Viewport-relative units */
+                                width: 100%;"
+        >
+        </iframe>
+    </div>
+
+    <div id="third" class="tabcontent">
+        <iframe id="third-tab-pane-content"
+                src="{{ path('app_tab_by_id', {id:3}) }}"
+                style="display: block;       /* iframes are inline by default */
+                                border: none;         /* Reset default border */
+                                height: 800px;        /* Viewport-relative units */
+                                width: 100%;"
+        >
+        </iframe>
+    </div>
 </div>
 {% endblock %}
