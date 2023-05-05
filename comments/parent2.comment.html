@@ -46,7 +46,7 @@ Have a look at the network connections in the Browser debug console.
         <b><i>Nearly Perfect</i> 😀 Problem :</b>
         <ul>
             <li>
-                The first request (A) should be executed <b><i>at least</i></b> after the change of the input is handled in the child (request B).
+                The first request (A) should be executed <b><i>at least</i></b> after the change of the input is handled in the child (request B) or just before.
                 I added a 5000ms debounce on the child input to highlight the problem.
                 An appropriate way (in my opinion) would be, in the child, when input is changed :
                 <ul>

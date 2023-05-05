@@ -5,7 +5,8 @@ Have a look at the network connections in the Browser debug console.
     <li>
         If you update the parent, the child is rendered as an empty div.
         <br>
-        A single request is made for the parent. I guess this is the request based on data-model.
+        A single request is made for the parent. This is request executed by the change of the input in the parent component.
+        No other request is executed. This is probably because the data-live-id doesn't change. But what about the <b>dataModel</b> and <b>animal</b> arguments of child component ?
         <br>
         <b>Bug</b>
     </li>
@@ -13,7 +14,7 @@ Have a look at the network connections in the Browser debug console.
     <li>
         If you update the child, the parent is updated, but the child is rendered as an empty div.
         <br>
-        A single request is made for the parent, without waiting for the debounce delay. I guess this is the request based on data-model.
+        A single request is made for the parent, without waiting for the debounce delay. I guess this is the request based on <b>dataModel</b> argument of child component.
         <br>
         <b>Bug</b>
     </li>
@@ -21,9 +22,9 @@ Have a look at the network connections in the Browser debug console.
     <li>
         If you then update the parent or the child, the child is rendered and updated.
         <br>
-        A single request is made for the parent. I guess this is the request based on data-model.
+        A single request is made for the parent.
         <br>
-        <b>Semi Bug</b>
+        <b>Semi Bug. By the way, at the next update, the child component will not be rendered correctly.</b>
     </li>
     <br>
 </ul>
